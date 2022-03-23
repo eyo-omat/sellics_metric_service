@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +29,7 @@ public class SellicService {
 
     private Configs configs;
 
-    public List<AsinData> extractAsinData() throws IOException {
+    private List<AsinData> extractAsinData() throws IOException {
         List<AsinData> asinDataList = new ArrayList<>();
 
         AWSCredentials awsCredentials = new BasicAWSCredentials(configs.getSellicsAwsAccessKey(), configs.getSellicsAwsSecretKey());
@@ -56,11 +57,16 @@ public class SellicService {
     }
 
     public List<AsinData> fetchIndividualRanksForAsinForKeyword(String keyword, String asin) throws IOException {
-
         return extractAsinData().stream()
                 .filter(asinData -> asinData.getAsin().equals(asin))
                 .filter(asinData -> asinData.getKeyword().equals(keyword))
                 .sorted(Comparator.comparing(AsinData::getRank))
                 .collect(Collectors.toList());
+    }
+
+    public Map<Integer, List<AsinData>> fetchAggregatedRanksForKeyword(String keyword) throws IOException {
+        return extractAsinData().stream()
+                .filter(asinData -> asinData.getKeyword().equals(keyword))
+                .collect(Collectors.groupingBy(AsinData::getRank));
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/sellics_metrics")
@@ -28,8 +29,9 @@ public class SellicsMetricController {
     }
 
     @GetMapping("/aggregated-ranks/{keyword}")
-    public ResponseEntity<String> fetchAggregatedRanksForKeyword(@PathVariable String keyword) {
-        return ResponseEntity.ok("Aggregated Ranks for keyword: " + keyword);
+    public ResponseEntity<Map<Integer, List<AsinData>>> fetchAggregatedRanksForKeyword(@PathVariable String keyword) throws IOException {
+        Map<Integer, List<AsinData>> map = service.fetchAggregatedRanksForKeyword(keyword);
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/ranks/{asin}")
