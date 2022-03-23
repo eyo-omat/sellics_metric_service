@@ -1,4 +1,4 @@
-package service;
+package com.sellics.sellics_metric_service.service;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -10,15 +10,17 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import configs.Configs;
+import com.sellics.sellics_metric_service.configs.Configs;
+import com.sellics.sellics_metric_service.model.AsinData;
 import lombok.AllArgsConstructor;
-import model.AsinData;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -51,5 +53,14 @@ public class SellicService {
         }
 
         return asinDataList;
+    }
+
+    public List<AsinData> fetchIndividualRanksForAsinForKeyword(String keyword, String asin) throws IOException {
+
+        return extractAsinData().stream()
+                .filter(asinData -> asinData.getAsin().equals(asin))
+                .filter(asinData -> asinData.getKeyword().equals(keyword))
+                .sorted(Comparator.comparing(AsinData::getRank))
+                .collect(Collectors.toList());
     }
 }

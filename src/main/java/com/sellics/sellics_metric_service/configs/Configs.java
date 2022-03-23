@@ -1,4 +1,4 @@
-package configs;
+package com.sellics.sellics_metric_service.configs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
