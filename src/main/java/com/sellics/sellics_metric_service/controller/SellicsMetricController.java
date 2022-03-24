@@ -28,14 +28,15 @@ public class SellicsMetricController {
         return ResponseEntity.ok(asinDataList);
     }
 
-    @GetMapping("/aggregated-ranks/{keyword}")
+    @GetMapping("/aggregated-ranks-keyword/{keyword}")
     public ResponseEntity<Map<Integer, List<AsinData>>> fetchAggregatedRanksForKeyword(@PathVariable String keyword) throws IOException {
         Map<Integer, List<AsinData>> map = service.fetchAggregatedRanksForKeyword(keyword);
         return ResponseEntity.ok(map);
     }
 
-    @GetMapping("/ranks/{asin}")
-    public ResponseEntity<String> fetchRanksForKeyword(@PathVariable String asin) {
-        return ResponseEntity.ok("Aggregated Ranks for ASIN: " + asin);
+    @GetMapping("/aggregated-ranks-asin/{asin}")
+    public ResponseEntity<Map<Integer, List<AsinData>>> fetchAggregatedRanksForAsin(@PathVariable String asin) throws IOException {
+        Map<Integer, List<AsinData>> map = service.fetchAggregatedRanksForAsin(asin);
+        return ResponseEntity.ok(map);
     }
 }

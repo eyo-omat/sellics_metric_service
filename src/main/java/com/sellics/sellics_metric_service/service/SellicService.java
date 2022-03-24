@@ -69,4 +69,10 @@ public class SellicService {
                 .filter(asinData -> asinData.getKeyword().equals(keyword))
                 .collect(Collectors.groupingBy(AsinData::getRank));
     }
+
+    public Map<Integer, List<AsinData>> fetchAggregatedRanksForAsin(String asin) throws IOException {
+        return extractAsinData().stream()
+                .filter(asinData -> asinData.getKeyword().equals(asin))
+                .collect(Collectors.groupingBy(AsinData::getRank));
+    }
 }
