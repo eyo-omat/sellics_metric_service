@@ -1,5 +1,5 @@
 # sellics_metric_service
-
+A service to process a data set for product rankings per keywords
 
 # Start Up
 This solution was built in java 11, it is a maven project.
@@ -18,7 +18,7 @@ Below are the available APIs for interacting with project
 
 - _This API returns the individual ranks for an ASIN, for a certain keyword_
 
-**Endpoint** -> -> GET http://localhost:8087/sellics_metrics/individual-ranks/{keyword}/{asin}
+**Endpoint** -> GET http://localhost:8087/sellics_metrics/individual-ranks/{keyword}/{asin}
 
 **Sample Request**
 
